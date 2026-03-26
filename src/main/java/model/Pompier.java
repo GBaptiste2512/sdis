@@ -14,7 +14,10 @@ public class Pompier {
     private String bip ;
     private String nom;
     private String prenom ;
+    private String DateNaiss;
     private Caserne uneCaserne ;
+    private Grade grade ;
+    private Profession profession ;
 
     public Pompier() {
     }
@@ -57,6 +60,30 @@ public class Pompier {
 
     public void setUneCaserne(Caserne uneCaserne) {
         this.uneCaserne = uneCaserne;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    public Profession getProfession() {
+        return profession;
+    }
+
+    public void setProfession(Profession profession) {
+        this.profession = profession;
+    }
+
+    public String getDateNaiss() {
+        return DateNaiss;
+    }
+
+    public void setDateNaiss(String DateNaiss) {
+        this.DateNaiss = DateNaiss;
     }
     
     
