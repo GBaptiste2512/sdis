@@ -60,4 +60,17 @@ public class DaoCaserne {
         } catch (SQLException e){ e.printStackTrace(); }
         return c;
     }
+    
+    public static Caserne updateCaserne(Connection cnx, Caserne c){
+        try{
+            requeteSql = cnx.prepareStatement("UPDATE caserne SET NOM = ?, RUE = ?, COPOS = ?, VILLE = ? WHERE ID_CASERNE = ?");
+            requeteSql.setString(1, c.getNom());
+            requeteSql.setString(2, c.getRue());
+            requeteSql.setString(3, c.getCopos());
+            requeteSql.setString(4, c.getVille());
+            requeteSql.setInt(5, c.getId());
+            requeteSql.executeUpdate();
+        } catch (SQLException e){ e.printStackTrace(); }
+        return c;
+    }
 }

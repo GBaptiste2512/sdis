@@ -38,6 +38,8 @@
             <p style="color:red;">Erreur : Impossible de trouver cette caserne.</p>
         <% } %>
         <br>
+        <a href="../ServletCaserne/modifier?idCaserne=<%= c.getId() %>" style="display:inline-block; padding:10px; background-color:#ADD8E6; color:black; text-decoration:none; border-radius:5px;">✏️ Modifier</a>
+        <br>
         <a href="../ServletPompier/lister">← Retour à la liste des pompiers</a>
     </div>
 </body>

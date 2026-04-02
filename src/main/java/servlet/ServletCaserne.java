@@ -13,7 +13,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import model.Caserne;
 
-@WebServlet(name = "ServletCaserne", urlPatterns = {"/ServletCaserne/consulter", "/ServletCaserne/lister"})
+@WebServlet(name = "ServletCaserne", urlPatterns = {"/ServletCaserne/consulter", "/ServletCaserne/lister" ,"/ServletCaserne/modifier"})
 public class ServletCaserne extends HttpServlet {
 
     Connection cnx;
@@ -50,14 +50,34 @@ public class ServletCaserne extends HttpServlet {
             int idCaserne = Integer.parseInt(request.getParameter("idCaserne"));
             Caserne c = DaoCaserne.getCaserneById(cnx, idCaserne);
             request.setAttribute("pCaserne", c);
-            getServletContext().getRequestDispatcher("/vues/caserne/consulterCaserne.jsp").forward(request, response);        
+            getServletContext().getRequestDispatcher("/vues/caserne/consulterCaserne.jsp").forward(request, response);   
+        }
+        
+        if(url.equals("/sdisweb/ServletCaserne/modifier")) {
+            int idCaserne = Integer.parseInt(request.getParameter("idCaserne"));
+            Caserne c = DaoCaserne.getCaserneById(cnx, idCaserne);
+            request.setAttribute("pCaserne", c);
+            getServletContext().getRequestDispatcher("/vues/caserne/modifierCaserne.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String url = request.getRequestURI();
+        if(url.equals("/sdisweb/ServletCaserne/modifier")) {
+            Caserne c = new Caserne();
+            c.setId(Integer.parseInt(request.getParameter("idCaserne")));
+            c.setNom(request.getParameter("nom"));
+            c.setRue(request.getParameter("rue"));
+            c.setCopos(request.getParameter("copos"));
+            c.setVille(request.getParameter("ville"));
+            
+            DaoCaserne.updateCaserne(cnx, c);
+            
+            // Redirection vers la page de consultation de la caserne modifiée
+            response.sendRedirect(request.getContextPath() + "/ServletCaserne/consulter?idCaserne=" + c.getId());
+        }
     }
 
     @Override
