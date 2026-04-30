@@ -1,9 +1,3 @@
-<%-- 
-    Document   : listerEnginsCaserne
-    Created on : 2 avr. 2026, 11:13:01
-    Author     : ts1sio
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Engin"%>
@@ -11,39 +5,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
         <title>Liste des engins</title>
-        </head>
         <style>
-            body { font-family: Arial, sans-serif; }
-            table { border-collapse: collapse; width: 70%; margin: auto; }
-            th, td { border: 1px solid black; padding: 10px; text-align: left; }
-            th { background-color: #eee; }
-            
-            /* Bouton Accueil */
-            .btn-accueil {
-                display: inline-block; padding: 10px 20px; font-size: 1.1em;
-                color: white; background-color: #dc3545; text-decoration: none;
-                border-radius: 8px; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-            }
-            .btn-accueil:hover { background-color: #c82333; }
-            .header-left { text-align: left; margin: 20px; }
+            /* On ne garde que le style spécifique au tableau, le reste est dans le header */
+            table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f4f4f4; }
+            tr:hover { background-color: #f9f9f9; }
+            .info-vide { padding: 20px; background: #fff3cd; color: #856404; border-radius: 5px; }
         </style>
+    </head>
     <body>
-        <div class="container"> <div class="header-left">
-            <jsp:include page="/vues/inclusions/header.jsp" />
-        </div>
         <div class="container">
+            <%-- Inclusion du Header --%>
+            <jsp:include page="/vues/inclusions/header.jsp" />
+
             <%
-                // Récupération des données envoyées par le Servlet
-                ArrayList<Engin> lesEngins = (ArrayList<Engin>) request.getAttribute("pLesEngins");
-                Caserne laCaserne = (Caserne) request.getAttribute("pLaCaserne");
-            %>
-            
-            <h1>Engins affectés à la caserne : <%= laCaserne != null ? laCaserne.getNom() : "" %></h1>
+    ArrayList<Engin> lesEngins = (ArrayList<Engin>) request.getAttribute("pLesEngins");
+    Caserne laCaserne = (Caserne) request.getAttribute("pCaserne");
+    %>
+
+<h1>Engins affectés à la caserne : <%= (laCaserne != null) ? laCaserne.getNom() : "Inconnue" %></h1>
             
             <% if(lesEngins != null && !lesEngins.isEmpty()) { %>
-                <table class="table table-bordered">
+                <table>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -62,12 +48,14 @@
                     </tbody>
                 </table>
             <% } else { %>
-                <p>Aucun engin affecté à cette caserne pour le moment.</p>
+                <p class="info-vide">Aucun engin affecté à cette caserne pour le moment.</p>
             <% } %>
 
-            <a href="../ServletCaserne/lister">Retour Liste Casernes</a>
-        </div>
-            <div class="container"> <div class="header-left">
+            <p style="margin-top: 20px;">
+                <a href="../ServletCaserne/lister" class="btn-menu" style="background-color: #6c757d;"> Retour a la Liste</a>
+            </p>
+
+            <%-- Inclusion du Footer --%>
             <jsp:include page="/vues/inclusions/footer.jsp" />
         </div>
     </body>

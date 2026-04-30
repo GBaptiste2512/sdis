@@ -25,14 +25,14 @@ public class DaoCaserne {
     public static ArrayList<Caserne> getLesCasernes(Connection cnx){
         ArrayList<Caserne> lesCasernes= new ArrayList<Caserne>();
         try{
-            requeteSql = cnx.prepareStatement("SELECT * FROM CASERNE");
+            requeteSql = cnx.prepareStatement("select * from caserne");
             resultatRequete = requeteSql.executeQuery();
             
             while (resultatRequete.next()){
                 Caserne c = new Caserne();
-                c.setId(resultatRequete.getInt("ID_CASERNE"));
-                c.setNom(resultatRequete.getString("NOM"));
-                c.setVille(resultatRequete.getString("VILLE"));
+                c.setId(resultatRequete.getInt("id_caserne"));
+                c.setNom(resultatRequete.getString("nom"));
+                c.setVille(resultatRequete.getString("ville"));
                 lesCasernes.add(c);
             }
         }
@@ -45,17 +45,17 @@ public class DaoCaserne {
     public static Caserne getCaserneById(Connection cnx, int idCaserne){
         Caserne c = null;
         try{
-            requeteSql = cnx.prepareStatement("SELECT * FROM CASERNE WHERE ID_CASERNE = ?");
+            requeteSql = cnx.prepareStatement("select * from caserne where id_caserne = ?");
             requeteSql.setInt(1, idCaserne);
             resultatRequete = requeteSql.executeQuery();
             
             if (resultatRequete.next()){
                 c = new Caserne();
-                c.setId(resultatRequete.getInt("ID_CASERNE"));
-                c.setNom(resultatRequete.getString("NOM"));
-                c.setRue(resultatRequete.getString("RUE"));
-                c.setCopos(resultatRequete.getString("COPOS"));
-                c.setVille(resultatRequete.getString("VILLE"));
+                c.setId(resultatRequete.getInt("id_caserne"));
+                c.setNom(resultatRequete.getString("nom"));
+                c.setRue(resultatRequete.getString("rue"));
+                c.setCopos(resultatRequete.getString("copos"));
+                c.setVille(resultatRequete.getString("ville"));
             }
         } catch (SQLException e){ e.printStackTrace(); }
         return c;
@@ -63,7 +63,7 @@ public class DaoCaserne {
     
     public static Caserne updateCaserne(Connection cnx, Caserne c){
         try{
-            requeteSql = cnx.prepareStatement("UPDATE caserne SET NOM = ?, RUE = ?, COPOS = ?, VILLE = ? WHERE ID_CASERNE = ?");
+            requeteSql = cnx.prepareStatement("update caserne set nom = ?, rue = ?, copos = ?, ville = ? where id_caserne = ?");
             requeteSql.setString(1, c.getNom());
             requeteSql.setString(2, c.getRue());
             requeteSql.setString(3, c.getCopos());
