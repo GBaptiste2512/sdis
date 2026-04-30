@@ -30,7 +30,14 @@
         <h1 style="text-align:center;">Liste des Casernes</h1>
         
         <% ArrayList<Caserne> lesCasernes = (ArrayList<Caserne>)request.getAttribute("pLesCasernes"); %>
-        
+        <h1>Liste des Casernes</h1>
+        <div style="margin-bottom: 20px;">
+        <a href="../ServletCaserne/ajouter" style="display:inline-block; padding:10px 15px; background-color:#28a745; color:white; text-decoration:none; border-radius:5px; font-weight: bold;">➕ Ajouter une Caserne</a>
+        </div>
+
+<!-- Ton tableau <table> existant commence ici... -->
+<table class="table table-bordered table-striped">
+...
         <table>
             <thead>
                 <tr>

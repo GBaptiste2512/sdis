@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import model.Caserne;
 
@@ -89,5 +90,27 @@ public class DaoCaserne {
             e.printStackTrace();
             System.out.println("Erreur lors de la suppression en cascade de la caserne.");
         }
+    }
+    // NOUVEAUTÉ : La méthode pour AJOUTER une caserne
+    public static Caserne addCaserne(Connection cnx, Caserne c) {
+        try {
+            // Le Statement.RETURN_GENERATED_KEYS permet de récupérer l'ID généré automatiquement par MariaDB
+            requeteSql = cnx.prepareStatement("INSERT INTO caserne (nom, rue, copos, ville) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            requeteSql.setString(1, c.getNom());
+            requeteSql.setString(2, c.getRue());
+            requeteSql.setString(3, c.getCopos());
+            requeteSql.setString(4, c.getVille());
+            requeteSql.executeUpdate();
+            
+            // On récupère l'ID tout neuf et on le met dans notre objet Caserne
+            resultatRequete = requeteSql.getGeneratedKeys();
+            if (resultatRequete.next()) {
+                c.setId(resultatRequete.getInt(1));
+            }
+        } catch (SQLException e) { 
+            e.printStackTrace(); 
+            System.out.println("Erreur lors de l'ajout de la caserne.");
+        }
+        return c;
     }
 }

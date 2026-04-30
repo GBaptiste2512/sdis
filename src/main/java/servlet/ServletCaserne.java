@@ -16,7 +16,7 @@ import model.Caserne;
 import model.Engin;
 
 // NOUVEAUTÉ : Ajout de /ServletCaserne/supprimer dans les urlPatterns
-@WebServlet(name = "ServletCaserne", urlPatterns = {"/ServletCaserne/consulter", "/ServletCaserne/lister" ,"/ServletCaserne/modifier", "/ServletCaserne/engins", "/ServletCaserne/supprimer"})
+@WebServlet(name = "ServletCaserne", urlPatterns = {"/ServletCaserne/consulter", "/ServletCaserne/lister" ,"/ServletCaserne/modifier","/ServletCaserne/ajouter", "/ServletCaserne/engins", "/ServletCaserne/supprimer"})
 public class ServletCaserne extends HttpServlet {
 
     Connection cnx;
@@ -72,13 +72,17 @@ public class ServletCaserne extends HttpServlet {
             getServletContext().getRequestDispatcher("/vues/caserne/listerEnginsCaserne.jsp").forward(request, response);
         }
 
-        // NOUVEAUTÉ : La route pour réceptionner le clic "Supprimer"
+        
         if(url.equals("/sdisweb/ServletCaserne/supprimer")) {
             int idCaserne = Integer.parseInt(request.getParameter("idCaserne"));
             
-            DaoCaserne.deleteCaserne(cnx, idCaserne); // On supprime en BDD
+            DaoCaserne.deleteCaserne(cnx, idCaserne);
             
             response.sendRedirect(request.getContextPath() + "/ServletCaserne/lister"); // On retourne à la liste
+        }
+        
+        if(url.equals("/sdisweb/ServletCaserne/ajouter")) {
+            getServletContext().getRequestDispatcher("/vues/caserne/ajouterCaserne.jsp").forward(request, response);
         }
     }
 
@@ -97,6 +101,23 @@ public class ServletCaserne extends HttpServlet {
             DaoCaserne.updateCaserne(cnx, c);
             
             response.sendRedirect(request.getContextPath() + "/ServletCaserne/consulter?idCaserne=" + c.getId());
+        }
+        if(url.equals("/sdisweb/ServletCaserne/ajouter")) {
+            Caserne c = new Caserne();
+            c.setNom(request.getParameter("nom"));
+            c.setRue(request.getParameter("rue"));
+            c.setCopos(request.getParameter("copos"));
+            c.setVille(request.getParameter("ville"));
+            
+            // On ajoute en BDD
+            Caserne caserneInseree = DaoCaserne.addCaserne(cnx, c);
+            
+            if (caserneInseree != null && caserneInseree.getId() != 0) {
+                response.sendRedirect(request.getContextPath() + "/ServletCaserne/consulter?idCaserne=" + caserneInseree.getId());
+            } else {
+                // En cas d'erreur, on renvoie vers le formulaire
+                response.sendRedirect(request.getContextPath() + "/ServletCaserne/ajouter");
+            }
         }
     }
 

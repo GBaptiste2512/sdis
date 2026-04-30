@@ -18,6 +18,9 @@
         </div>
         <h1 style="text-align:center;">Liste des pompiers</h1>
         <% ArrayList<Pompier> lesPompiers = (ArrayList<Pompier>)request.getAttribute("pLesPompiers"); %>
+        <div style="margin-bottom: 20px;">
+        <a href="../ServletPompier/ajouter" style="display:inline-block; padding:10px 15px; background-color:#28a745; color:white; text-decoration:none; border-radius:5px; font-weight: bold;">➕ Ajouter un Pompier</a>
+        </div>
         <table>  
             <thead>
                 <tr>             

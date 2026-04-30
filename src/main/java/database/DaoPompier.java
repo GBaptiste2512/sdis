@@ -86,11 +86,15 @@ public class DaoPompier {
 
     public static Pompier addPompier(Connection connection, Pompier p){      
         try {
-            requeteSql = connection.prepareStatement("insert into pompier (nom, prenom, id_caserne) values (?,?,?)", 
+            requeteSql = connection.prepareStatement("INSERT INTO pompier (nom, prenom, datenaiss, id_caserne, id_grade, id_profession) VALUES (?,?,?,?,?,?)", 
                                         Statement.RETURN_GENERATED_KEYS );
             requeteSql.setString(1, p.getNom());
             requeteSql.setString(2, p.getPrenom());
-            requeteSql.setInt(3, p.getUneCaserne().getId());
+            requeteSql.setString(3, p.getDateNaiss());
+            requeteSql.setInt(4, p.getUneCaserne().getId());
+            requeteSql.setInt(5, p.getGrade().getId());
+            requeteSql.setInt(6, p.getProfession().getId());
+            
             requeteSql.executeUpdate();
             resultatRequete = requeteSql.getGeneratedKeys();
             if (resultatRequete.next()) {
